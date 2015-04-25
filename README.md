@@ -4,7 +4,8 @@
 Flags is a low level package for parsing or managing single flag arguments and
 their associated values from a list of arguments. It's useful for CLI
 applications or creating logic for parsing arguments(custom or os.Args)
-manually. Checkout the usage below for examples:
+manually. Checkout the
+usage below for examples:
 
 ## Install
 
@@ -14,7 +15,8 @@ go get github.com/fatih/flags
 
 ## Usage and examples
 
-Let us define three flags
+Let us define three flags. Flags needs to be compatible with the
+[flag](https://golang.org/pkg/flag/) package.
 
 ```go
 args := []string{"--key", "123", "--name=example", "--debug"}
@@ -33,7 +35,7 @@ Get the value for from a flag name
 ```go
 val, _ := flags.ValueFrom("--key", args) // val -> "123"
 val, _ := flags.ValueFrom("name", args)  // val -> "example"
-val, _ := flags.ValueFrom("debug", args) // val -> "" (means boolean)
+val, _ := flags.ValueFrom("debug", args) // val -> "" (means true boolean)
 ```
 
 Exclude a flag and it's value from the argument list
@@ -44,7 +46,7 @@ rArgs := flags.ExcludeFlag("name", args) // rArgs -> ["--key", "123", "--debug"]
 rArgs := flags.ExcludeFlag("foo", args)  // rArgs -> ["--key", "123", "--name=example "--debug"]
 ```
 
-Is a flag in its valid representation?
+Is a flag in its valid representation (compatible with the flag package)?
 
 ```go
 flags.IsFlag("foo")           // false
