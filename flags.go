@@ -10,10 +10,10 @@ import (
 	"strings"
 )
 
-// HasFlag checks whether the given flag name is available or not in the
+// Has checks whether the given flag name is available or not in the
 // argument list.
-func HasFlag(name string, args []string) bool {
-	_, err := ValueFromFlag(name, args)
+func Has(name string, args []string) bool {
+	_, err := Value(name, args)
 	if err != nil {
 		return false
 	}
@@ -21,20 +21,20 @@ func HasFlag(name string, args []string) bool {
 	return true
 }
 
-// IsFlag checks whether the given argument is a valid flag or not
-func IsFlag(arg string) bool {
-	if _, err := ParseFlag(arg); err != nil {
+// IsValid checks whether the given argument is a valid flag or not
+func IsValid(arg string) bool {
+	if _, err := Parse(arg); err != nil {
 		return false
 	}
 
 	return true
 }
 
-// ParseFlag parses a flags name. A flag can be in form of --name=value,
+// Parse parses a flags name. A flag can be in form of --name=value,
 // -name=value,  or a boolean flag --name, -name=, etc...  If it's a correct
 // flag, the name is returned. If not an empty string and an error message is
-// returned
-func ParseFlag(arg string) (string, error) {
+// returned.
+func Parse(arg string) (string, error) {
 	if arg == "" {
 		return "", errors.New("argument is empty")
 	}
@@ -64,12 +64,12 @@ func ParseFlag(arg string) (string, error) {
 	return name, nil
 }
 
-// ValueFromFlag parses the given flagName from the args slice and returns the
+// Value parses the given flagName from the args slice and returns the
 // value passed to the flag. An example: args: ["--provider", "aws"] will
 // return "aws" for the flag name "provider". An empty string and non error
 // means the flag is in the boolean form, i.e: ["--provider", "--foo", "bar],
 // will return "" as value for the flag name "provider.
-func ValueFromFlag(flagName string, args []string) (string, error) {
+func Value(flagName string, args []string) (string, error) {
 	value, _, err := parseFlagAndValue(flagName, args)
 	if err != nil {
 		return "", err
@@ -78,11 +78,11 @@ func ValueFromFlag(flagName string, args []string) (string, error) {
 	return value, nil
 }
 
-// ExcludeFlag excludes/removes the given valid flagName with it's associated
+// Exclude excludes/removes the given valid flagName with it's associated
 // value (or none) from the args. It returns the remaining arguments. If no
 // flagName is passed or if the flagName is invalid, remaining arguments are
 // returned without any change.
-func ExcludeFlag(flagName string, args []string) []string {
+func Exclude(flagName string, args []string) []string {
 	_, remainingArgs, err := parseFlagAndValue(flagName, args)
 	if err != nil {
 		return args
@@ -107,7 +107,7 @@ func parseFlagAndValue(flagName string, args []string) (string, []string, error)
 	flagName = strings.TrimLeftFunc(flagName, func(r rune) bool { return r == '-' })
 
 	for i, arg := range args {
-		flag, err := ParseFlag(arg)
+		flag, err := Parse(arg)
 		if err != nil {
 			continue
 		}
@@ -149,7 +149,7 @@ func parseFlagAndValue(flagName string, args []string) (string, []string, error)
 
 		// next argument is a flag i.e: "--flagName --otherFlag", remove our
 		// flag and return the remainings
-		if IsFlag(args[i+1]) {
+		if IsValid(args[i+1]) {
 			// flag is between the first and the last, delete and return the
 			// remaining arguments
 			return "", append(args[:i], args[i+1:]...), nil

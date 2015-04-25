@@ -25,43 +25,43 @@ args := []string{"--key", "123", "--name=example", "--debug"}
 Check if a flag exists in the argument list
 
 ```go
-flags.HasFlag("key", args)    // true
-flags.HasFlag("--key", args)  // true
-flags.HasFlag("secret", args) // false
+flags.Has("key", args)    // true
+flags.Has("--key", args)  // true
+flags.Has("secret", args) // false
 ```
 
 Get the value for from a flag name
 
 ```go
-val, _ := flags.ValueFrom("--key", args) // val -> "123"
-val, _ := flags.ValueFrom("name", args)  // val -> "example"
-val, _ := flags.ValueFrom("debug", args) // val -> "" (means true boolean)
+val, _ := flags.Value("--key", args) // val -> "123"
+val, _ := flags.Value("name", args)  // val -> "example"
+val, _ := flags.Value("debug", args) // val -> "" (means true boolean)
 ```
 
 Exclude a flag and it's value from the argument list
 
 ```go
-rArgs := flags.ExcludeFlag("key", args)  // rArgs -> ["--name=example", "--debug"]
-rArgs := flags.ExcludeFlag("name", args) // rArgs -> ["--key", "123", "--debug"]
-rArgs := flags.ExcludeFlag("foo", args)  // rArgs -> ["--key", "123", "--name=example "--debug"]
+rArgs := flags.Exclude("key", args)  // rArgs -> ["--name=example", "--debug"]
+rArgs := flags.Exclude("name", args) // rArgs -> ["--key", "123", "--debug"]
+rArgs := flags.Exclude("foo", args)  // rArgs -> ["--key", "123", "--name=example "--debug"]
 ```
 
 Is a flag in its valid representation (compatible with the flag package)?
 
 ```go
-flags.IsFlag("foo")           // false
-flags.IsFlag("--foo")         // true
-flags.IsFlag("-key=val")      // true
-flags.IsFlag("-name=example") // true
+flags.IsValid("foo")           // false
+flags.IsValid("--foo")         // true
+flags.IsValid("-key=val")      // true
+flags.IsValid("-name=example") // true
 ```
 
 Parse a flag and return the name
 
 ```go
-name, _ := flags.ParseFlag("foo")        // returns error, because foo is invalid
-name, _ := flags.ParseFlag("--foo")      // name -> "foo
-name, _ := flags.ParseFlag("-foo")       // name -> "foo
-name, _ := flags.ParseFlag("-foo=value") // name -> "foo
-name, _ := flags.ParseFlag("-foo=")      // name -> "foo
+name, _ := flags.Parse("foo")        // returns error, because foo is invalid
+name, _ := flags.Parse("--foo")      // name -> "foo
+name, _ := flags.Parse("-foo")       // name -> "foo
+name, _ := flags.Parse("-foo=value") // name -> "foo
+name, _ := flags.Parse("-foo=")      // name -> "foo
 ```
 

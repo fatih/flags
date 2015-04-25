@@ -25,7 +25,7 @@ func TestHasFlag(t *testing.T) {
 	}
 
 	for _, f := range flags {
-		has := HasFlag(f.flag, f.args)
+		has := Has(f.flag, f.args)
 		if has != f.hasFlag {
 			t.Errorf("hasFlag: arg: %v flag: %v \n\twant: %v\n\tgot : %v\n", f.flag, f.args, f.hasFlag, has)
 		}
@@ -46,7 +46,7 @@ func TestIsFlag(t *testing.T) {
 	}
 
 	for _, f := range flags {
-		is := IsFlag(f.flag)
+		is := IsValid(f.flag)
 		if is != f.isFlag {
 			t.Errorf("flag: %s\n\twant: %s\n\tgot : %s\n", f.flag, f.isFlag, is)
 		}
@@ -70,7 +70,7 @@ func TestParseFlag(t *testing.T) {
 	}
 
 	for _, f := range flags {
-		name, _ := ParseFlag(f.flag)
+		name, _ := Parse(f.flag)
 		if name != f.name {
 			t.Errorf("flag: %s\n\twant: %s\n\tgot : %s\n", f.flag, f.name, name)
 		}
@@ -121,7 +121,7 @@ func TestValueFromFlag(t *testing.T) {
 	}
 
 	for _, args := range arguments {
-		value, _ := ValueFromFlag("provider", args.args)
+		value, _ := Value("provider", args.args)
 
 		if value != args.value {
 			t.Errorf("parsing args value: %v\n\twant: %s\n\tgot : %s\n",
@@ -146,7 +146,7 @@ func TestValueFromDashFlag(t *testing.T) {
 	}
 
 	for _, args := range arguments {
-		value, _ := ValueFromFlag("access-key", args.args)
+		value, _ := Value("access-key", args.args)
 
 		if value != args.value {
 			t.Errorf("parsing dash args value: %v\n\twant: %s\n\tgot : %s\n",
@@ -180,7 +180,7 @@ func TestExcludeFlag(t *testing.T) {
 	}
 
 	for _, args := range arguments {
-		remainingArgs := ExcludeFlag("provider", args.args)
+		remainingArgs := Exclude("provider", args.args)
 
 		if !reflect.DeepEqual(remainingArgs, args.remArgs) {
 			t.Errorf("parsing and returning rem args: %v\n\twant: %s\n\tgot : %s\n",
