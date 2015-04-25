@@ -1,6 +1,6 @@
-// Package flags is a low level package for parsing single flag arguments and
-// their associated values from an argument list. It's useful for CLI
-// applications or creating logic for parsing arguments(custom or os.Args)
+// Package flags is a low level package for parsing or managing single flag
+// arguments and their associated values from an argument list. It's useful for
+// CLI applications or creating logic for parsing arguments(custom or os.Args)
 // manually.
 package flags
 
