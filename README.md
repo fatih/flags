@@ -17,7 +17,7 @@ go get github.com/fatih/flags
 Let us define three flags
 
 ```go
-args := []string{"--foo", "123", "--bar", 456}
+args := []string{"--key", "123", "--name=example", "--debug"}
 ```
 
 Check if a flag exists in the argument list
