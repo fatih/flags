@@ -14,20 +14,13 @@ import (
 // argument list.
 func Has(name string, args []string) bool {
 	_, err := Value(name, args)
-	if err != nil {
-		return false
-	}
-
-	return true
+	return err == nil
 }
 
 // IsValid checks whether the given argument is a valid flag or not
 func IsValid(arg string) bool {
-	if _, err := Parse(arg); err != nil {
-		return false
-	}
-
-	return true
+	_, err := Parse(arg)
+	return err == nil
 }
 
 // Parse parses a flags name. A flag can be in form of --name=value,
