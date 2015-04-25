@@ -49,10 +49,10 @@ rArgs := flags.Exclude("foo", args)  // rArgs -> ["--key", "123", "--name=exampl
 Is a flag in its valid representation (compatible with the flag package)?
 
 ```go
-flags.IsValid("foo")           // false
-flags.IsValid("--foo")         // true
-flags.IsValid("-key=val")      // true
-flags.IsValid("-name=example") // true
+flags.Valid("foo")           // false
+flags.Valid("--foo")         // true
+flags.Valid("-key=val")      // true
+flags.Valid("-name=example") // true
 ```
 
 Parse a flag and return the name

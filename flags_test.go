@@ -46,7 +46,7 @@ func TestIsFlag(t *testing.T) {
 	}
 
 	for _, f := range flags {
-		is := IsValid(f.flag)
+		is := Valid(f.flag)
 		if is != f.isFlag {
 			t.Errorf("flag: %s\n\twant: %s\n\tgot : %s\n", f.flag, f.isFlag, is)
 		}

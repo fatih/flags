@@ -17,8 +17,8 @@ func Has(name string, args []string) bool {
 	return err == nil
 }
 
-// IsValid checks whether the given argument is a valid flag or not
-func IsValid(arg string) bool {
+// Valid checks whether the given argument is a valid flag or not
+func Valid(arg string) bool {
 	_, err := Parse(arg)
 	return err == nil
 }
@@ -142,7 +142,7 @@ func parseFlagAndValue(flagName string, args []string) (string, []string, error)
 
 		// next argument is a flag i.e: "--flagName --otherFlag", remove our
 		// flag and return the remainings
-		if IsValid(args[i+1]) {
+		if Valid(args[i+1]) {
 			// flag is between the first and the last, delete and return the
 			// remaining arguments
 			return "", append(args[:i], args[i+1:]...), nil
