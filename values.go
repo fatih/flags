@@ -1,37 +1,49 @@
 package flags
 
 import (
+	"flag"
 	"strconv"
 	"strings"
 )
 
-// StringList is an implementation of flag.Value interface that accepts a comma
-// separated list of elements and populates a []string slice.
-//
-// Example:
-//
-//  var regions []string
-//  flag.Var(flags.StringListVar(&regions), "to", "Regions to be used")
-type StringList []string
+type stringList []string
 
-// New returns a new *StringList.
-func StringListVar(p *[]string) *StringList {
-	return (*StringList)(p)
+// New returns a new StringList satisfies the flag.Value interface. This is
+// useful to be used with flag.FlagSet. For global flag, StringList() and
+// StringListVar() can be used.
+func NewStringList(val []string, p *[]string) *stringList {
+	return (*stringList)(p)
 }
 
-func (s *StringList) Set(val string) error {
+func (s *stringList) Set(val string) error {
 	// if empty default is used
 	if val == "" {
 		return nil
 	}
 
-	*s = StringList(strings.Split(val, ","))
+	*s = stringList(strings.Split(val, ","))
 	return nil
 }
 
-func (s *StringList) Get() interface{} { return []string(*s) }
+func (s *stringList) Get() interface{} { return []string(*s) }
 
-func (s *StringList) String() string { return strings.Join(*s, ",") }
+func (s *stringList) String() string { return strings.Join(*s, ",") }
+
+// String defines a []string flag with specified name, default value, and usage
+// string. The return value is the address of a []string variable that stores
+// the value of the flag.
+func StringList(value []string, name, usage string) *[]string {
+	p := new([]string)
+	flag.Var(NewStringList(value, p), name, usage)
+	return p
+}
+
+// StringListVar defines a []string flag with specified name, default value,
+// and usage string. The argument p points to a []string variable in which to
+// store the value of the flag.
+func StringListVar(p *[]string, value []string, name, usage string) {
+	flag.Var(NewStringList(value, p), name, usage)
+}
 
 // IntList is an implementation of flag.Value interface that accepts a comma
 // separated list of integers and populates a []int slice.
