@@ -6,43 +6,43 @@ import (
 	"strings"
 )
 
-type stringList []string
+type StringSliceValue []string
 
 // New returns a new StringList satisfies the flag.Value interface. This is
-// useful to be used with flag.FlagSet. For global flag, StringList() and
-// StringListVar() can be used.
-func NewStringList(val []string, p *[]string) *stringList {
-	return (*stringList)(p)
+// useful to be used with flag.FlagSet. For the global flag instance,
+// StringSlice() and StringSliceVar() can be used.
+func NewStringSlice(val []string, p *[]string) *StringSliceValue {
+	return (*StringSliceValue)(p)
 }
 
-func (s *stringList) Set(val string) error {
+func (s *StringSliceValue) Set(val string) error {
 	// if empty default is used
 	if val == "" {
 		return nil
 	}
 
-	*s = stringList(strings.Split(val, ","))
+	*s = StringSliceValue(strings.Split(val, ","))
 	return nil
 }
 
-func (s *stringList) Get() interface{} { return []string(*s) }
+func (s *StringSliceValue) Get() interface{} { return []string(*s) }
 
-func (s *stringList) String() string { return strings.Join(*s, ",") }
+func (s *StringSliceValue) String() string { return strings.Join(*s, ",") }
 
-// String defines a []string flag with specified name, default value, and usage
+// StringSlice defines a []string flag with specified name, default value, and usage
 // string. The return value is the address of a []string variable that stores
 // the value of the flag.
-func StringList(value []string, name, usage string) *[]string {
+func StringSlice(value []string, name, usage string) *[]string {
 	p := new([]string)
-	flag.Var(NewStringList(value, p), name, usage)
+	flag.Var(NewStringSlice(value, p), name, usage)
 	return p
 }
 
-// StringListVar defines a []string flag with specified name, default value,
+// StringSliceVar defines a []string flag with specified name, default value,
 // and usage string. The argument p points to a []string variable in which to
 // store the value of the flag.
-func StringListVar(p *[]string, value []string, name, usage string) {
-	flag.Var(NewStringList(value, p), name, usage)
+func StringSliceVar(p *[]string, value []string, name, usage string) {
+	flag.Var(NewStringSlice(value, p), name, usage)
 }
 
 // IntList is an implementation of flag.Value interface that accepts a comma

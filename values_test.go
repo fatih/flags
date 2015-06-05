@@ -8,7 +8,7 @@ import (
 )
 
 func TestStringList(t *testing.T) {
-	regions := StringList(nil, "to", "Regions to be used")
+	regions := StringSlice(nil, "to", "Regions to be used")
 
 	os.Args = []string{"images", "-to", "us-east-1,eu-west-2"}
 	flag.Parse()
@@ -21,7 +21,7 @@ func TestStringList(t *testing.T) {
 
 func TestStringListVar(t *testing.T) {
 	var regions []string
-	StringListVar(&regions, nil, "tos", "Regions to be used")
+	StringSliceVar(&regions, nil, "tos", "Regions to be used")
 
 	os.Args = []string{"images", "-tos", "us-east-1,eu-west-2"}
 	flag.Parse()
@@ -36,7 +36,7 @@ func TestStringListFlagSet(t *testing.T) {
 	f := flag.NewFlagSet("TestTags", flag.PanicOnError)
 
 	var regions []string
-	f.Var(NewStringList(nil, &regions), "to", "Regions to be used")
+	f.Var(NewStringSlice(nil, &regions), "to", "Regions to be used")
 	f.Parse([]string{"-to", "us-east-1,eu-west-2"})
 
 	want := []string{"us-east-1", "eu-west-2"}
