@@ -10,7 +10,7 @@ import (
 func TestStringList(t *testing.T) {
 	regions := StringSlice(nil, "to", "Regions to be used")
 
-	os.Args = []string{"images", "-to", "us-east-1,eu-west-2"}
+	os.Args = []string{"cmd", "-to", "us-east-1,eu-west-2"}
 	flag.Parse()
 
 	want := []string{"us-east-1", "eu-west-2"}
@@ -23,7 +23,7 @@ func TestStringListVar(t *testing.T) {
 	var regions []string
 	StringSliceVar(&regions, nil, "tos", "Regions to be used")
 
-	os.Args = []string{"images", "-tos", "us-east-1,eu-west-2"}
+	os.Args = []string{"cmd", "-tos", "us-east-1,eu-west-2"}
 	flag.Parse()
 
 	want := []string{"us-east-1", "eu-west-2"}
@@ -48,7 +48,7 @@ func TestStringListFlagSet(t *testing.T) {
 func TestIntList(t *testing.T) {
 	ids := IntSlice(nil, "ids", "Servers to be used")
 
-	os.Args = []string{"images", "-ids", "123,456"}
+	os.Args = []string{"cmd", "-ids", "123,456"}
 	flag.Parse()
 
 	want := []int{123, 456}
@@ -61,7 +61,7 @@ func TestIntListVar(t *testing.T) {
 	var ids []int
 	IntSliceVar(&ids, nil, "idss", "Servers to be used")
 
-	os.Args = []string{"images", "-idss", "123,456"}
+	os.Args = []string{"cmd", "-idss", "123,456"}
 	flag.Parse()
 
 	want := []int{123, 456}
